@@ -1,6 +1,8 @@
+using Burikaigi.Server.Data;
 using Burikaigi.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Burikaigi.Server.Controllers
 {
@@ -9,10 +11,38 @@ namespace Burikaigi.Server.Controllers
     [Route("[controller]")]
     public class FishController : ControllerBase
     {
+        readonly ApplicationDbContext _context;
+
+        public FishController(ApplicationDbContext context)
+        {
+            _context = context;
+
+            /*
+            _context.‹›.RemoveRange(_context.‹›);
+            var excel = ExcelReader.ReadExcel(@"c:\aaa\‹›.xlsx");
+            foreach (var row in excel.Values.First())
+            {
+                _context.‹›.Add(new ‹›
+                {
+                    –¼‘O = row["A"],
+                    j = row["B"],
+                    –Ú = row["C"],
+                    ‰È = row["D"],
+                    ‘® = row["E"],
+                    ¶‘§ŠÂ‹« = row["F"],
+                    H« = row["G"],
+                    ¯ = int.Parse(row["H"]),
+                });
+            }
+            _context.SaveChanges();
+            */
+        }
         //“o˜^‚ÆŒŸõ
 
         [HttpGet]
-        public ‹›[] Get()
+        public async Task<‹›[]> GetAsync()
+            => await _context.‹›.ToArrayAsync();
+            /*
         {
             return new[] {
                 new ‹›
@@ -24,9 +54,12 @@ namespace Burikaigi.Server.Controllers
                 ‘® = "ƒJƒTƒS",
                 ¶‘§ŠÂ‹« = "‰ˆŠİ‚ÌŠâÊˆæ",
                 H« = "å‚É¬‹›‚âbŠk—Ş",
-                H–¡ = 5,
+                ¯ = 5,
                 }
             };
-        }
+        }*/
+
+
+
     }
 }

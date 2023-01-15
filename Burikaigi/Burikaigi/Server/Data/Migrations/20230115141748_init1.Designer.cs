@@ -4,6 +4,7 @@ using Burikaigi.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Burikaigi.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230115141748_init1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,9 +103,6 @@ namespace Burikaigi.Server.Data.Migrations
                     b.Property<string>("属")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("星")
-                        .HasColumnType("int");
-
                     b.Property<string>("生息環境")
                         .HasColumnType("nvarchar(max)");
 
@@ -115,6 +114,9 @@ namespace Burikaigi.Server.Data.Migrations
 
                     b.Property<string>("綱")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("星")
+                        .HasColumnType("int");
 
                     b.Property<string>("食性")
                         .HasColumnType("nvarchar(max)");

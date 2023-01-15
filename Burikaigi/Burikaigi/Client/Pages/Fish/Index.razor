@@ -24,8 +24,8 @@
     <label>属
     <input type="text" @bind-value="_属" @bind-value:event="oninput" />
     </label>
-    <label>食味
-    <input type="text" @bind-value="_食味" @bind-value:event="oninput" />
+    <label>星
+    <input type="text" @bind-value="_星" @bind-value:event="oninput" />
     </label>
 	<button class="btn btn-outline-success w-200px"
 			@onclick="検索クリックイベント">
@@ -48,7 +48,7 @@
             <th>属</th>
             <th>生息環境</th>
             <th>食性</th>
-            <th>食味</th>
+            <th>星</th>
         </tr>
     </thead>
     <tbody>
@@ -61,8 +61,8 @@
                 <td>@e.科</td>
                 <td>@e.属</td>
                 <td>@e.生息環境</td>
-                <td>@e.食味</td>
-                <td>@e.食味_表示()</td>
+                <td>@e.星</td>
+                <td>@e.星_表示()</td>
             </tr>
         }
     </tbody>
@@ -77,7 +77,7 @@
     string _目 = "abc";
     string _科 = "abc";
     string _属 = "abc";
-    string _食味 = "★";
+    string _星 = "★";
 
     protected override async Task OnInitializedAsync()
     {

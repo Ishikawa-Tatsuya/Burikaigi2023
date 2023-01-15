@@ -34,8 +34,8 @@
 </div>
 
 <div>
-<label>食味</label>
-<input type="text" @bind-value="_食味" @bind-value:event="oninput" />
+<label>星</label>
+<input type="text" @bind-value="_星" @bind-value:event="oninput" />
 </div>
 
 <button class="btn btn-outline-success w-200px"
@@ -54,7 +54,7 @@
     string _目 = "abc";
     string _科 = "abc";
     string _属 = "abc";
-    string _食味 = "★";
+    string _星 = "★";
     
     protected void 戻るクリックイベント()
         => NavigationManager.NavigateTo($"fish");
