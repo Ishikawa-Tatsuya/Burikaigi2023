@@ -38,5 +38,6 @@ builder.Services.AddToaster(config =>
 });
 
 builder.Services.AddScoped<HttpService>();
+builder.Services.AddSingleton<LoadingService>();
 
 await builder.Build().RunAsync();

@@ -3,6 +3,7 @@
 @inject Services.HttpService Http
 @using Sotsera.Blazor.Toaster
 @using Burikaigi.Shared
+@using Burikaigi.Client.Components
 
 <div class="page">
     @if (_validUser)
@@ -14,6 +15,7 @@
         <main>
             <article class="content px-4">
                 <ToastContainer />
+                <Loading />
                 @Body
             </article>
         </main>

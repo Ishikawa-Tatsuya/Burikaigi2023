@@ -1,0 +1,30 @@
+﻿@implements IDisposable
+@inject Burikaigi.Client.Services.LoadingService LoadingService
+
+<div class="backdrop" data-show=@_loading>
+	<div class="loading-box">
+		<Spinner />
+		<p class="mt-4 mb-0">Loading</p>
+	</div>
+</div>
+
+@code {
+	bool _loading = false;
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		LoadingService.OnLoadingChanged += LoadingChanged;
+	}
+
+	public void Dispose()
+	{
+		LoadingService.OnLoadingChanged -= LoadingChanged;
+	}
+
+	void LoadingChanged(object? sender, bool e)
+	{
+		_loading = e;
+		StateHasChanged();
+	}
+}

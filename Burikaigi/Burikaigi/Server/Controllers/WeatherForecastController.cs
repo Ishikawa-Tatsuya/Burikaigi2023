@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Burikaigi.Server.Controllers
 {
-    [Authorize]
+    [Authorize, AutoValidateAntiforgeryToken]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

@@ -1,0 +1,25 @@
+﻿div.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+div.loading-box {
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 20px 30px;
+  margin: auto;
+}
+
+div.backdrop[data-show] {
+  display: flex;
+}
