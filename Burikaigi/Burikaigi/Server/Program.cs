@@ -1,8 +1,10 @@
 using Burikaigi.Server.Data;
 using Burikaigi.Server.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +14,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//認証
+builder.Services.AddIdentityCore<ApplicationUser>(opt =>
+{
+    opt.Password.RequireNonAlphanumeric = false;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddSignInManager<SignInManager<ApplicationUser>>()
+.AddDefaultTokenProviders();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+// クッキー認証に必要なサービスを登録
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => {
+    });
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+//CSRF 対策
+builder.Services.AddAntiforgery(options => {
+    options.HeaderName = "X-ANTIFORGERY-TOKEN";
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -46,13 +60,33 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapRazorPages();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
+app.MapFallbackToPage("/_Host");
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionHandlerPathFeature =
+            context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature == null) return;
+
+        var ex = exceptionHandlerPathFeature.Error;
+        context.Response.ContentType = "text/plain";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var list = new List<string>();
+        while (ex != null)
+        {
+            list.Add(ex.Message);
+            ex = ex.InnerException;
+        }
+        await context.Response.WriteAsync(string.Join(Environment.NewLine, list));
+    });
+});
 
 app.Run();

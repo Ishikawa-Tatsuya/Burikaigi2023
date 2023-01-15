@@ -1,9 +1,7 @@
 ﻿@page "/fetchdata"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inherits BasePage
 @using Burikaigi.Shared
-@attribute [Authorize]
-@inject HttpClient Http
+@inject Services.HttpService Http
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -41,17 +39,17 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
-
+    private WeatherForecast[] forecasts = new WeatherForecast[0];
+    
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+            forecasts = (await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast"))!;
         }
-        catch (AccessTokenNotAvailableException exception)
+        catch (Exception e)
         {
-            exception.Redirect();
+            //exception.Redirect();
         }
     }
 }

@@ -1,18 +1,38 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject Services.HttpService Http
+@using Burikaigi.Shared
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    @if (_validUser)
+    {
+        <div class="sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <main>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    }
 </div>
+
+@code {
+    bool _validUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var user = await Http.GetFromJsonAsync<UserInfo>("/account/user");
+        if (user != null)
+        {
+            _validUser = true;
+            StateHasChanged();
+            return;
+        }
+
+        NavigationManager.NavigateTo("/login");
+    }
+}
