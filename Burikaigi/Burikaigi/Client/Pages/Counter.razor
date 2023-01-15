@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @inherits BasePage
+@inject Sotsera.Blazor.Toaster.IToaster Toaster
 
 <PageTitle>Counter</PageTitle>
 
@@ -14,6 +15,7 @@
 
     private void IncrementCount()
     {
+        Toaster.Error("abc");
         currentCount++;
     }
 }

@@ -3,6 +3,7 @@ using Burikaigi.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using Sotsera.Blazor.Toaster.Core.Models;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -25,6 +26,15 @@ builder.Services.AddScoped(sp => {
     httpClient.DefaultRequestHeaders.Add("X-ANTIFORGERY-TOKEN", token);
 
     return httpClient;
+});
+
+builder.Services.AddToaster(config =>
+{
+    config.PositionClass = Defaults.Classes.Position.BottomRight;
+    config.MaximumOpacity = 100;
+    config.VisibleStateDuration = 1000 * 10;
+    config.ShowTransitionDuration = 10;
+    config.HideTransitionDuration = 500;
 });
 
 builder.Services.AddScoped<HttpService>();

@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 @inject Services.HttpService Http
+@using Sotsera.Blazor.Toaster
 @using Burikaigi.Shared
 
 <div class="page">
@@ -12,6 +13,7 @@
 
         <main>
             <article class="content px-4">
+                <ToastContainer />
                 @Body
             </article>
         </main>
