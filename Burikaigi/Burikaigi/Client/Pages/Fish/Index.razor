@@ -1,0 +1,95 @@
+﻿@page "/fish"
+@inherits BasePage
+@using Burikaigi.Shared
+@inject Services.HttpService Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>魚</PageTitle>
+
+<h1>魚</h1>
+
+<div>
+    <label>名前
+    <input type="text" @bind-value="_名前" @bind-value:event="oninput" />
+    </label>
+    <label>綱
+    <input type="text" @bind-value="_綱" @bind-value:event="oninput" />
+    </label>
+    <label>目
+    <input type="text" @bind-value="_目" @bind-value:event="oninput" />
+    </label>
+    <label>科
+    <input type="text" @bind-value="_科" @bind-value:event="oninput" />
+    </label>
+    <label>属
+    <input type="text" @bind-value="_属" @bind-value:event="oninput" />
+    </label>
+    <label>食味
+    <input type="text" @bind-value="_食味" @bind-value:event="oninput" />
+    </label>
+	<button class="btn btn-outline-success w-200px"
+			@onclick="検索クリックイベント">
+		検索
+	</button>
+</div>
+
+<button class="btn btn-outline-success w-200px"
+		@onclick="新規登録クリックイベント">
+	新規登録
+</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>名前</th>
+            <th>綱</th>
+            <th>目</th>
+            <th>科</th>
+            <th>属</th>
+            <th>生息環境</th>
+            <th>食性</th>
+            <th>食味</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in _魚群)
+        {
+            <tr>
+                <td>@e.名前</td>
+                <td>@e.綱</td>
+                <td>@e.目</td>
+                <td>@e.科</td>
+                <td>@e.属</td>
+                <td>@e.生息環境</td>
+                <td>@e.食味</td>
+                <td>@e.食味_表示()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private 魚[] _魚群 = new 魚[0];
+
+    string _名前 = "abc";
+    string _綱 = "abc";
+    string _目 = "abc";
+    string _科 = "abc";
+    string _属 = "abc";
+    string _食味 = "★";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _魚群 = (await Http.GetFromJsonAsync<魚[]>("Fish"))!;
+    }
+
+    protected void 検索クリックイベント()
+    {
+        
+
+    }
+
+	protected void 新規登録クリックイベント()
+		=> NavigationManager.NavigateTo($"fish/edit");
+}

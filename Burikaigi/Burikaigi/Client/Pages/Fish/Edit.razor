@@ -1,0 +1,66 @@
+﻿@page "/fish/edit"
+@inherits BasePage
+@using Burikaigi.Shared
+@inject Services.HttpService Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>魚</PageTitle>
+
+<h1>魚</h1>
+
+<div>
+<label>名前</label>
+<input type="text" @bind-value="_名前" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>綱</label>
+<input type="text" @bind-value="_綱" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>目</label>
+<input type="text" @bind-value="_目" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>科</label>
+<input type="text" @bind-value="_科" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>属</label>
+<input type="text" @bind-value="_属" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>食味</label>
+<input type="text" @bind-value="_食味" @bind-value:event="oninput" />
+</div>
+
+<button class="btn btn-outline-success w-200px"
+		@onclick="戻るクリックイベント">
+	戻る
+</button>
+<button class="btn btn-outline-primary w-200px"
+		@onclick="登録クリックイベント">
+	登録
+</button>
+
+@code {
+
+    string _名前 = "abc";
+    string _綱 = "abc";
+    string _目 = "abc";
+    string _科 = "abc";
+    string _属 = "abc";
+    string _食味 = "★";
+    
+    protected void 戻るクリックイベント()
+        => NavigationManager.NavigateTo($"fish");
+
+    protected void 登録クリックイベント()
+    {
+        
+    }
+}
