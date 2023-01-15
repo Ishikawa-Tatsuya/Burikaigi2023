@@ -17,22 +17,19 @@ namespace Burikaigi.Server.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, 
-            RoleManager<IdentityRole> roleManager)
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginVM? loginDto)
+        public async Task<IActionResult> Login(LoginData? loginDto)
         {
             if (loginDto == null) throw new Exception();
 

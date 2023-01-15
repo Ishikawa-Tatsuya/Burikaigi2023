@@ -1,0 +1,36 @@
+﻿@page "/Login"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@using Burikaigi.Shared
+<PageTitle>Index</PageTitle>
+<div>
+
+    <h1>Login</h1>
+
+    <form @onsubmit="OnLogin" @onsubmit:preventDefault="true">
+        <div>
+            ユーザーID<input @bind=id type="text" style="width:300px" class="form-control" />
+        </div>
+        <div>
+            パスワード<input @bind=password type="password" style="width:300px" class="form-control" />
+        </div>
+        <div>
+            <input @bind=isPersistent type="checkbox" /> Remember me?
+        </div>
+        <button type="submit" class="btn btn-primary">
+            ログイン
+        </button>
+    </form>
+</div>
+
+@code {
+    string? id;
+    string? password;
+    bool isPersistent;
+
+    async Task OnLogin()
+    {
+        await Http.PostAsJsonAsync("/account/login", new LoginData { Id = id, Password = password, IsPersistent = isPersistent });
+        NavigationManager.NavigateTo("");
+    }
+}

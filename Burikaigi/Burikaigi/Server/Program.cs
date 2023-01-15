@@ -17,6 +17,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(opt =>
 {
     opt.Password.RequireNonAlphanumeric = false;
 })
+.AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddSignInManager<SignInManager<ApplicationUser>>()
 .AddDefaultTokenProviders();
