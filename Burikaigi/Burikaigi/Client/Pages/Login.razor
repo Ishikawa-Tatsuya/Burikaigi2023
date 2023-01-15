@@ -1,12 +1,11 @@
 ﻿@page "/Login"
-@inject HttpClient Http
+@inject Services.HttpService Http
 @inject NavigationManager NavigationManager
 @using Burikaigi.Shared
-<PageTitle>Index</PageTitle>
+@layout EmptyLayout
+
+<PageTitle>Login</PageTitle>
 <div>
-
-    <h1>Login</h1>
-
     <form @onsubmit="OnLogin" @onsubmit:preventDefault="true">
         <div>
             ユーザーID<input @bind=id type="text" style="width:300px" class="form-control" />

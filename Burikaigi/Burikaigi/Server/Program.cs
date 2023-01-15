@@ -1,8 +1,10 @@
 using Burikaigi.Server.Data;
 using Burikaigi.Server.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,9 +63,30 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToPage("/_Host");
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionHandlerPathFeature =
+            context.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature == null) return;
+
+        var ex = exceptionHandlerPathFeature.Error;
+        context.Response.ContentType = "text/plain";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var list = new List<string>();
+        while (ex != null)
+        {
+            list.Add(ex.Message);
+            ex = ex.InnerException;
+        }
+        await context.Response.WriteAsync(string.Join(Environment.NewLine, list));
+    });
+});
 
 app.Run();

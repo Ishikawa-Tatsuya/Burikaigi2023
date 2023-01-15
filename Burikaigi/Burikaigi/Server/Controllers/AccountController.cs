@@ -28,6 +28,16 @@ namespace Burikaigi.Server.Controllers
             _signInManager = signInManager;
         }
 
+        [HttpGet("user")]
+        public async Task<UserInfo?> GetUsers()
+        {
+            var name = User?.Identity?.Name;
+            if (name == null) return null;
+            var user = await _context.Users.Where(e => e.UserName == name).FirstOrDefaultAsync();
+            if (user == null) return null;
+            return new UserInfo { Name = user.UserName };
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginData? loginDto)
         {

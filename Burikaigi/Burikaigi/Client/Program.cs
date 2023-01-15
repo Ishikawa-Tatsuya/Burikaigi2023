@@ -1,4 +1,5 @@
 using Burikaigi.Client;
+using Burikaigi.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
@@ -25,5 +26,7 @@ builder.Services.AddScoped(sp => {
 
     return httpClient;
 });
+
+builder.Services.AddScoped<HttpService>();
 
 await builder.Build().RunAsync();
