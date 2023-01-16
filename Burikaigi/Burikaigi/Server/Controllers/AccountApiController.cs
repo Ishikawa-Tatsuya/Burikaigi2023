@@ -12,13 +12,13 @@ namespace Burikaigi.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountApiController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(
+        public AccountApiController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)

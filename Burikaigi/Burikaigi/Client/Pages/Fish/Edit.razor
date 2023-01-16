@@ -1,8 +1,10 @@
 ﻿@page "/fish/edit"
+@page "/fish/edit/{Id:long}"
 @inherits BasePage
 @using Burikaigi.Shared
 @inject Services.HttpService Http
 @inject NavigationManager NavigationManager
+@inject Sotsera.Blazor.Toaster.IToaster Toaster
 
 <PageTitle>魚</PageTitle>
 
@@ -10,27 +12,37 @@
 
 <div>
 <label>名前</label>
-<input type="text" @bind-value="_名前" @bind-value:event="oninput" />
+<input type="text" @bind-value="_魚.名前" @bind-value:event="oninput" />
 </div>
 
 <div>
 <label>綱</label>
-<input type="text" @bind-value="_綱" @bind-value:event="oninput" />
+<input type="text" @bind-value="_魚.綱" @bind-value:event="oninput" />
 </div>
 
 <div>
 <label>目</label>
-<input type="text" @bind-value="_目" @bind-value:event="oninput" />
+<input type="text" @bind-value="_魚.目" @bind-value:event="oninput" />
 </div>
 
 <div>
 <label>科</label>
-<input type="text" @bind-value="_科" @bind-value:event="oninput" />
+<input type="text" @bind-value="_魚.科" @bind-value:event="oninput" />
 </div>
 
 <div>
 <label>属</label>
-<input type="text" @bind-value="_属" @bind-value:event="oninput" />
+<input type="text" @bind-value="_魚.属" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>生息環境</label>
+<input type="text" @bind-value="_魚.生息環境" @bind-value:event="oninput" />
+</div>
+
+<div>
+<label>食性</label>
+<input type="text" @bind-value="_魚.食性" @bind-value:event="oninput" />
 </div>
 
 <div>
@@ -46,21 +58,44 @@
 		@onclick="登録クリックイベント">
 	登録
 </button>
+<button class="btn btn-outline-danger w-200px"
+        @onclick="(()=>破棄クリックイベント())">
+        削除
+</button>
 
 @code {
+    [Parameter]
+    public long Id { get; set; }
 
-    string _名前 = "abc";
-    string _綱 = "abc";
-    string _目 = "abc";
-    string _科 = "abc";
-    string _属 = "abc";
-    string _星 = "★";
-    
-    protected void 戻るクリックイベント()
+    魚 _魚 = new 魚();
+    string _星 = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == 0) return;
+        var result = await Http.GetFromJsonAsync<魚>($"/fishapi/{Id}");
+        _魚 = result ?? new 魚();
+        _星 = _魚.星_表示();
+    }
+
+    void 戻るクリックイベント()
         => NavigationManager.NavigateTo($"fish");
 
-    protected void 登録クリックイベント()
+    async Task 登録クリックイベント()
     {
-        
+        if (!_魚.星設定(_星))
+        {
+            Toaster.Error("★の数は5個までです");
+            return;
+        }
+        if (!await Http.PostAsJsonAsync("/fishapi", _魚)) return;
+        Toaster.Success( "登録しました。");
+        NavigationManager.NavigateTo($"fish");
     }
+
+	async Task 破棄クリックイベント()
+	{
+		if (!await Http.DeleteAsync($"/fishapi/{Id}")) 
+        return;NavigationManager.NavigateTo($"fish");
+	}
 }

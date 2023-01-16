@@ -30,7 +30,7 @@
 
     async Task OnLogin()
     {
-        await Http.PostAsJsonAsync("/account/login", new LoginData { Id = id, Password = password, IsPersistent = isPersistent });
+        await Http.PostAsJsonAsync("/accountapi/login", new LoginData { Id = id, Password = password, IsPersistent = isPersistent });
         NavigationManager.NavigateTo("");
     }
 }

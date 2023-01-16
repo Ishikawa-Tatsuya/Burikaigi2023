@@ -49,6 +49,7 @@
             <th>生息環境</th>
             <th>食性</th>
             <th>星</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -61,8 +62,9 @@
                 <td>@e.科</td>
                 <td>@e.属</td>
                 <td>@e.生息環境</td>
-                <td>@e.星</td>
+                <td>@e.食性</td>
                 <td>@e.星_表示()</td>
+                <td><button class="btn btn-outline-success w-200px" @onclick="(()=>編集クリックイベント(e))">編集</button></td>
             </tr>
         }
     </tbody>
@@ -72,24 +74,28 @@
 @code {
     private 魚[] _魚群 = new 魚[0];
 
-    string _名前 = "abc";
-    string _綱 = "abc";
-    string _目 = "abc";
-    string _科 = "abc";
-    string _属 = "abc";
-    string _星 = "★";
+    string _名前 = "";
+    string _綱 = "";
+    string _目 = "";
+    string _科 = "";
+    string _属 = "";
+    string _星 = "";
 
     protected override async Task OnInitializedAsync()
     {
-        _魚群 = (await Http.GetFromJsonAsync<魚[]>("Fish"))!;
+        _魚群 = (await Http.GetFromJsonAsync<魚[]>("fishapi"))!;
     }
 
-    protected void 検索クリックイベント()
+    async Task 検索クリックイベント()
     {
-        
+        //name, string? rope, string? eye, string? department, string? genus, string? star
+        _魚群 = (await Http.GetFromJsonAsync<魚[]>($"fishapi?name={_名前}&class={_綱}&order={_目}&family={_科}&genus={_属}&star={_星}"))!;
 
     }
 
-	protected void 新規登録クリックイベント()
-		=> NavigationManager.NavigateTo($"fish/edit");
+	void 新規登録クリックイベント()
+		=> NavigationManager.NavigateTo($"/fish/edit");
+
+	void 編集クリックイベント(魚 t)
+		=> NavigationManager.NavigateTo( $"/fish/edit/{t.Id}");
 }

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Burikaigi.Shared
 {
@@ -17,5 +16,12 @@ namespace Burikaigi.Shared
         public int 星 { get; set; }
 
         public string 星_表示() => string.Join("", Enumerable.Range(0, 星).Select(_ => "★"));
+        public bool 星設定(string 星文字)
+        {
+            var count = 星文字.Where(e => e == '★').Count();
+            if (5 < count) return false;
+            星 = count;
+            return true;
+        }
     }
 }
