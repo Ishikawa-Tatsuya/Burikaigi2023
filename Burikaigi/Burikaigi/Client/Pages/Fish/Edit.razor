@@ -6,9 +6,7 @@
 @inject NavigationManager NavigationManager
 @inject Sotsera.Blazor.Toaster.IToaster Toaster
 
-<PageTitle>魚</PageTitle>
-
-<h1>魚</h1>
+<PageTitle>魚編集</PageTitle>
 
 <div>
 <label>名前</label>
@@ -55,8 +53,8 @@
 	戻る
 </button>
 <button class="btn btn-outline-primary w-200px"
-		@onclick="登録クリックイベント">
-	登録
+		@onclick="確定クリックイベント">
+	確定
 </button>
 <button class="btn btn-outline-danger w-200px"
         @onclick="(()=>破棄クリックイベント())">
@@ -81,7 +79,7 @@
     void 戻るクリックイベント()
         => NavigationManager.NavigateTo($"fish");
 
-    async Task 登録クリックイベント()
+    async Task 確定クリックイベント()
     {
         if (!_魚.星設定(_星))
         {
