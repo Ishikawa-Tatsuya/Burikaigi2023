@@ -2,9 +2,8 @@
 using Selenium.StandardControls;
 using Selenium.StandardControls.PageObjectUtility;
 using Selenium.StandardControls.TestAssistant.GeneratorToolKit;
-using Test.WebApp.Tools;
 
-namespace Test.WebApp.PageObject
+namespace PageObject
 {
     public class 魚一覧のリスト一行 : ComponentBase
     {

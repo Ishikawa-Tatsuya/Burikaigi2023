@@ -2,7 +2,7 @@
 using Selenium.StandardControls;
 using Selenium.StandardControls.PageObjectUtility;
 
-namespace Test.WebApp.PageObject
+namespace PageObject
 {
     public static class Utitliy
     {

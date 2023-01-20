@@ -3,7 +3,7 @@ using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Test.WebApp
+namespace Test
 {
     public static class DataUtility
     {

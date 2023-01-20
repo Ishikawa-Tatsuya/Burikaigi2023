@@ -125,11 +125,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace NUnit.Framework
+namespace Test.Tools
 {
     #region Extensions
 
-    [System.Diagnostics.DebuggerStepThroughAttribute]
+    [System.Diagnostics.DebuggerStepThrough]
     [ContractVerification(false)]
     public static partial class AssertEx
     {
@@ -176,7 +176,7 @@ namespace NUnit.Framework
         /// <summary>CollectionAssert.AreEqual</summary>
         public static void Is<T>(this IEnumerable<T> actual, params T[] expected)
         {
-            Is(actual, expected.AsEnumerable());
+            actual.Is(expected.AsEnumerable());
         }
 
         /// <summary>CollectionAssert.AreEqual</summary>
@@ -188,7 +188,7 @@ namespace NUnit.Framework
         /// <summary>CollectionAssert.AreEqual</summary>
         public static void Is<T>(this IEnumerable<T> actual, IEnumerable<T> expected, IEqualityComparer<T> comparer, string message = "")
         {
-            Is(actual, expected, comparer.Equals, message);
+            actual.Is(expected, comparer.Equals, message);
         }
 
         /// <summary>CollectionAssert.AreEqual</summary>
@@ -214,7 +214,7 @@ namespace NUnit.Framework
         /// <summary>CollectionAssert.AreNotEqual</summary>
         public static void IsNot<T>(this IEnumerable<T> actual, params T[] notExpected)
         {
-            IsNot(actual, notExpected.AsEnumerable());
+            actual.IsNot(notExpected.AsEnumerable());
         }
 
         /// <summary>CollectionAssert.AreNotEqual</summary>
@@ -226,7 +226,7 @@ namespace NUnit.Framework
         /// <summary>CollectionAssert.AreNotEqual</summary>
         public static void IsNot<T>(this IEnumerable<T> actual, IEnumerable<T> notExpected, IEqualityComparer<T> comparer, string message = "")
         {
-            IsNot(actual, notExpected, comparer.Equals, message);
+            actual.IsNot(notExpected, comparer.Equals, message);
         }
 
         /// <summary>CollectionAssert.AreNotEqual</summary>
@@ -300,9 +300,9 @@ namespace NUnit.Framework
 
             public int Compare(object x, object y)
             {
-                return (comparison != null)
+                return comparison != null
                     ? comparison((T)x, (T)y) ? 0 : -1
-                    : object.Equals(x, y) ? 0 : -1;
+                    : Equals(x, y) ? 0 : -1;
             }
         }
 
@@ -338,8 +338,8 @@ namespace NUnit.Framework
         /// <summary>Assert by deep recursive value equality compare</summary>
         public static void IsStructuralEqual(this object actual, object expected, string message = "")
         {
-            message = (string.IsNullOrEmpty(message) ? "" : ", " + message);
-            if (object.ReferenceEquals(actual, expected)) return;
+            message = string.IsNullOrEmpty(message) ? "" : ", " + message;
+            if (ReferenceEquals(actual, expected)) return;
 
             if (actual == null) throw new AssertionException("actual is null" + message);
             if (expected == null) throw new AssertionException("actual is not null" + message);
@@ -362,8 +362,8 @@ namespace NUnit.Framework
         /// <summary>Assert by deep recursive value equality compare</summary>
         public static void IsNotStructuralEqual(this object actual, object expected, string message = "")
         {
-            message = (string.IsNullOrEmpty(message) ? "" : ", " + message);
-            if (object.ReferenceEquals(actual, expected)) throw new AssertionException("actual is same reference" + message); ;
+            message = string.IsNullOrEmpty(message) ? "" : ", " + message;
+            if (ReferenceEquals(actual, expected)) throw new AssertionException("actual is same reference" + message); ;
 
             if (actual == null) return;
             if (expected == null) return;
@@ -407,7 +407,7 @@ namespace NUnit.Framework
                             }
                         }
 
-                        if ((lMove == true && rMove == false) || (lMove == false && rMove == true))
+                        if (lMove == true && rMove == false || lMove == false && rMove == true)
                         {
                             return new EqualInfo { IsEquals = false, Left = lValue, Right = rValue, Names = names.Concat(new[] { "[" + index + "]" }) };
                         }
@@ -422,7 +422,7 @@ namespace NUnit.Framework
         static EqualInfo StructuralEqual(object left, object right, IEnumerable<string> names)
         {
             // type and basic checks
-            if (object.ReferenceEquals(left, right)) return new EqualInfo { IsEquals = true, Left = left, Right = right, Names = names };
+            if (ReferenceEquals(left, right)) return new EqualInfo { IsEquals = true, Left = left, Right = right, Names = names };
             if (left == null || right == null) return new EqualInfo { IsEquals = false, Left = left, Right = right, Names = names };
             var lType = left.GetType();
             var rType = right.GetType();
@@ -555,7 +555,7 @@ namespace NUnit.Framework
 
             private Type AssignableBoundType(Type left, Type right)
             {
-                return (left == null || right == null) ? null
+                return left == null || right == null ? null
                     : left.IsAssignableFrom(right) ? left
                     : right.IsAssignableFrom(left) ? right
                     : null;
@@ -624,7 +624,7 @@ namespace NUnit.Framework
                         .GetParameters()
                         .Select(pi => pi.ParameterType)
                         .SequenceEqual(parameterTypes, new EqualsComparer<Type>((x, y) =>
-                            (x.IsGenericParameter)
+                            x.IsGenericParameter
                                 ? a.TypeParameters[x].IsAssignableFrom(y)
                                 : x.Equals(y)))
                     )
@@ -642,9 +642,9 @@ namespace NUnit.Framework
                     .ToArray();
 
                 // generic
-                var generic = (typedMethods.Length == 1)
+                var generic = typedMethods.Length == 1
                     ? typedMethods[0]
-                    : (lessGeneric.Length == 1 ? lessGeneric[0] : null);
+                    : lessGeneric.Length == 1 ? lessGeneric[0] : null;
 
                 if (generic != null) return generic.MethodInfo.MakeGenericMethod(generic.TypeParameters.Select(kvp => kvp.Value).ToArray());
 
@@ -688,10 +688,10 @@ namespace NUnit.Framework
             {
                 this.target = target;
                 this.param = param;
-                this.Members = new Dictionary<string, object>();
+                Members = new Dictionary<string, object>();
             }
 
-            protected override System.Linq.Expressions.Expression VisitMember(MemberExpression node)
+            protected override Expression VisitMember(MemberExpression node)
             {
                 if (node.Expression == param && !Members.ContainsKey(node.Member.Name))
                 {

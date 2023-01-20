@@ -3,7 +3,7 @@ using Selenium.StandardControls;
 using Selenium.StandardControls.PageObjectUtility;
 using Selenium.StandardControls.TestAssistant.GeneratorToolKit;
 
-namespace Test.WebApp.PageObject
+namespace PageObject
 {
     public class ログイン画面 : PageBase
     {

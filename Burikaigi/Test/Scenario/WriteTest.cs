@@ -1,8 +1,9 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using Test.WebApp.PageObject;
+using PageObject;
+using Test.Tools;
 
-namespace Test.WebApp.Scenario
+namespace Test.Scenario
 {
     public class WriteTest
     {
@@ -12,7 +13,6 @@ namespace Test.WebApp.Scenario
         public void Setup()
         {
             _driver = new ChromeDriver();
-
             using (var context = DataUtility.CreateWriteDbContext())
             {
                 context.魚.RemoveRange(context.魚);

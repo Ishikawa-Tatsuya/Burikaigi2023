@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Burikaigi.DB\Burikaigi.DB.csproj" />
     <ProjectReference Include="..\Client\Burikaigi.Client.csproj" />
     <ProjectReference Include="..\Shared\Burikaigi.Shared.csproj" />
   </ItemGroup>

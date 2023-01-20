@@ -7,7 +7,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 
-namespace Test.WebApp.Tools
+namespace PageObject
 {
     public static class CapterAttachTreeMenuAction
     {
@@ -15,7 +15,7 @@ namespace Test.WebApp.Tools
         public static void Url(PageBase pageObject, string accessPath)
         {
             var web = pageObject.Driver;
-            CaptureAdaptor.AddCode(accessPath + ".Url = " + ToLiteral(web.Url) + ";");
+            CaptureAdaptor.AddCode(accessPath + ".Url = " + web.Url.ToLiteral() + ";");
         }
 
         [MenuAction(DisplayName = "Alert - Accept")]
@@ -56,19 +56,19 @@ namespace Test.WebApp.Tools
 
         [MenuAction]
         public static void Assert(AnchorDriver anchor, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(anchor.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + anchor.Text.ToLiteral() + ");");
 
         [MenuAction]
         public static void Assert(DateDriver date, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(date.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + date.Text.ToLiteral() + ");");
 
         [MenuAction]
         public static void Assert(DropDownListDriver dropdown, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(dropdown.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + dropdown.Text.ToLiteral() + ");");
 
         [MenuAction]
         public static void Assert(LabelDriver label, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(label.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + label.Text.ToLiteral() + ");");
 
         [MenuAction]
         public static void Assert(RadioButtonDriver radio, string accessPath)
@@ -80,11 +80,11 @@ namespace Test.WebApp.Tools
 
         [MenuAction]
         public static void Assert(TextBoxDriver textBox, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(textBox.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + textBox.Text.ToLiteral() + ");");
 
         [MenuAction]
         public static void Assert(IWebElement element, string accessPath)
-            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + ToLiteral(element.Text) + ");");
+            => CaptureAdaptor.AddCode(accessPath + ".Text.Is(" + element.Text.ToLiteral() + ");");
 
         public static string ToLiteral(this string text)
         {
