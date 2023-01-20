@@ -86,9 +86,7 @@ namespace Burikaigi.Server.Controllers
                 var count = star.Where(e => e == 'š').Count();
                 query = query.Where(e => e.¯ == count);
             }
-            var x = await query.ToArrayAsync();
-
-            return x;
+            return await query.OrderBy(e=>e.–¼‘O).ToArrayAsync();
         }
 
         [HttpDelete("{id}")]

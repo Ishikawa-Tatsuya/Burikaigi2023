@@ -15,6 +15,14 @@ namespace Test.WebApp.PageObject
         public TextBoxDriver パスワード => Label_パスワード.FindNext(By.TagName("input")).Wait();
 
         public ログイン画面(IWebDriver driver) : base(driver) { }
+
+        public void Adminでログイン()
+        {
+            ユーザーID.Edit("admin");
+            パスワード.Edit("Abcdefg123##");
+            RememberMe.Click();
+            ログイン.Click();
+        }
     }
 
     public static class PageObjectExtensions
