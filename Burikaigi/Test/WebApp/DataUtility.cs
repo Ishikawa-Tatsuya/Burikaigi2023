@@ -1,5 +1,4 @@
-﻿/*
-using Burikaigi.Server.Data;
+﻿using Burikaigi.Server.Data;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -21,4 +20,3 @@ namespace Test.WebApp
         }
     }
 }
-*/
