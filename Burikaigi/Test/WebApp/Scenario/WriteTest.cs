@@ -12,10 +12,12 @@ namespace Test.WebApp.Scenario
         public void Setup()
         {
             _driver = new ChromeDriver();
+
+            /*
             using (var context = DataUtility.CreateWriteDbContext())
             {
                 context.魚.RemoveRange(context.魚);
-            }
+            }*/
         }
 
         [TearDown]
