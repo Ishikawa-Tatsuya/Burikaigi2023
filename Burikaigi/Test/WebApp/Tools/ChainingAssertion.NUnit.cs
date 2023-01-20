@@ -142,7 +142,9 @@ namespace NUnit.Framework
                 return;
             }
 
+#pragma warning disable NUnit2005 // Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)
             Assert.AreEqual(expected, actual, message);
+#pragma warning restore NUnit2005 // Consider using Assert.That(actual, Is.EqualTo(expected)) instead of Assert.AreEqual(expected, actual)
         }
 
         /// <summary>Assert.IsTrue(predicate(value))</summary>
@@ -204,7 +206,9 @@ namespace NUnit.Framework
                 return;
             }
 
+#pragma warning disable NUnit2006 // Consider using Assert.That(actual, Is.Not.EqualTo(expected)) instead of Assert.AreNotEqual(expected, actual)
             Assert.AreNotEqual(notExpected, actual, message);
+#pragma warning restore NUnit2006 // Consider using Assert.That(actual, Is.Not.EqualTo(expected)) instead of Assert.AreNotEqual(expected, actual)
         }
 
         /// <summary>CollectionAssert.AreNotEqual</summary>
@@ -258,13 +262,17 @@ namespace NUnit.Framework
         /// <summary>Assert.AreSame</summary>
         public static void IsSameReferenceAs<T>(this T actual, T expected, string message = "")
         {
+#pragma warning disable NUnit2015 // Consider using Assert.That(actual, Is.SameAs(expected)) instead of Assert.AreSame(expected, actual)
             Assert.AreSame(expected, actual, message);
+#pragma warning restore NUnit2015 // Consider using Assert.That(actual, Is.SameAs(expected)) instead of Assert.AreSame(expected, actual)
         }
 
         /// <summary>Assert.AreNotSame</summary>
         public static void IsNotSameReferenceAs<T>(this T actual, T notExpected, string message = "")
         {
+#pragma warning disable NUnit2031 // Consider using Assert.That(actual, Is.Not.SameAs(expected)) instead of Assert.AreNotSame(expected, actual)
             Assert.AreNotSame(notExpected, actual, message);
+#pragma warning restore NUnit2031 // Consider using Assert.That(actual, Is.Not.SameAs(expected)) instead of Assert.AreNotSame(expected, actual)
         }
 
         /// <summary>Assert.IsInstanceOf</summary>
