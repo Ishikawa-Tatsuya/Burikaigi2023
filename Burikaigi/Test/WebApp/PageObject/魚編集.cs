@@ -24,7 +24,7 @@ namespace Test.WebApp.PageObject
         public TextBoxDriver 食性 => Label_食性.FindNext(By.TagName("input")).Wait();
         public TextBoxDriver 星 => Label_星.FindNext(By.TagName("input")).Wait();
         public ButtonDriver 戻る => ByText("戻る").Wait();
-        public ButtonDriver 登録 => ByText("登録").Wait();
+        public ButtonDriver 確定 => ByText("確定").Wait();
         public ButtonDriver 削除 => ByText("削除").Wait();
 
         public 魚編集(IWebDriver driver) : base(driver) { }
